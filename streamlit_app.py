@@ -5,7 +5,7 @@ from transformers import pipeline
 st.title("Sports Text Classification Demo")
 
 # Cache the classifier so it loads only once
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_classifier():
     return pipeline(task="text-classification", model="petrmiculek/sports_classification")
 
@@ -17,7 +17,7 @@ user_text = st.text_area("Enter text to classify:", "")
 # When the user clicks the button, classify the input text
 if st.button("Classify"):
     if user_text.strip():
-        result = classifier(user_text)
+        result = classifier(user_text)[0]
         st.write("Classification Result:")
         st.json(result)
     else:
